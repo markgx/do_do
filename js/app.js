@@ -4,11 +4,12 @@ var DoDoContainerView = Backbone.View.extend({
   },
 
   newTask: function(e) {
-    if (e.keyCode !== 13) {
+    var $newTaskField = $(e.currentTarget);
+
+    if (e.keyCode !== 13 || $newTaskField.val() === '') {
       return;
     }
 
-    var $newTaskField = $(e.currentTarget);
     var li = $('#todo-list-item').tmpl({ taskText: $newTaskField.val() });
     $('#todos-list').append(li);
     $newTaskField.val('');

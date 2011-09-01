@@ -14,6 +14,14 @@ body {
   font-size: 115%;
 }
 
+#todos-list li {
+  list-style-type: none;
+}
+
+.inline {
+  display: inline;
+}
+
 .hidden {
   display: none;
 }
