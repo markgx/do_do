@@ -8,13 +8,31 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
   <script src="js/underscore-1.1.7-min.js"></script>
   <script src="js/backbone-0.5.3-min.js"></script>
   <script src="js/app.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      app.init();
+    })
+  </script>
 </head>
 <body>
-  <div id="container">
-    <h1><s>Winter</s> do do is coming</h1>
+  <div id="dodo-container">
+    <h1>do do</h1>
+
+    <div><input id="new-task-field" type="text" placeholder="Enter new task" /></div>
+
+    <ul id="todos-list"></ul>
+
+    <script id="todo-list-item" type="text/x-jQuery-tmpl">
+      <li>
+        <div class="display">${taskText}</div>
+        <div class="edit hidden"><input type="text" class="edit-field" /></div>
+      </li>
+    </script>
   </div>
 </body>
 </html>

@@ -1,9 +1,23 @@
 body {
-	font-family: Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 100%;
 }
 
-#container {
-	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
+#dodo-container {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#new-task-field {
+  width: 90%;
+  font-size: 115%;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
 }
