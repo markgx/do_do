@@ -11,6 +11,7 @@
   <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
   <script src="js/underscore-1.1.7-min.js"></script>
   <script src="js/backbone-0.5.3-min.js"></script>
+  <script src="js/backbone.localStorage-min.js"></script>
   <script src="js/app.js"></script>
 
   <script>
@@ -28,11 +29,9 @@
     <ul id="todos-list"></ul>
 
     <script id="todo-list-item" type="text/x-jQuery-tmpl">
-      <li>
-        <div class="inline"><input type="checkbox" /></div>
-        <div class="display inline">${taskText}</div>
-        <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
-      </li>
+      <div class="inline"><input type="checkbox" class="completed" /></div>
+      <div class="display inline">${description}</div>
+      <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
     </script>
   </div>
 </body>
