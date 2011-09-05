@@ -125,13 +125,16 @@
         update: __bind(function(e, ui) {
           var newTodos;
           newTodos = $.makeArray(this.$('#todos-list li')).reverse();
-          return _(newTodos).each(function(el, i) {
+          _(newTodos).each(function(el, i) {
             var todo;
             todo = app.todos.get($(el).data('id'));
             todo.set({
               sortOrder: i
             });
             return todo.save();
+          });
+          return app.todos.sort({
+            silent: true
           });
         }, this)
       });

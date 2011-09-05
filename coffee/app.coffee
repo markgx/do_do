@@ -122,6 +122,8 @@ AppView = Backbone.View.extend
           todo.save()
         )
 
+        app.todos.sort(silent: true)
+
   events:
     'keyup #new-task-field': 'newTask'
 
