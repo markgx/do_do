@@ -11,7 +11,7 @@
   });
   Todos = Backbone.Collection.extend({
     model: Todo,
-    sessionStorage: new Store('todos')
+    localStorage: new Store('todos')
   });
   TodoView = Backbone.View.extend({
     tagName: 'li',

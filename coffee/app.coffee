@@ -6,7 +6,7 @@ Todo = Backbone.Model.extend
 
 Todos = Backbone.Collection.extend
   model: Todo
-  sessionStorage: new Store('todos')
+  localStorage: new Store('todos')
 
 # Views
 TodoView = Backbone.View.extend
