@@ -1,5 +1,6 @@
 (function() {
   var AppView, Todo, TodoView, Todos;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Todo = Backbone.Model.extend({
     defaults: function() {
       return {
@@ -10,7 +11,7 @@
   });
   Todos = Backbone.Collection.extend({
     model: Todo,
-    localStorage: new Store('todos')
+    sessionStorage: new Store('todos')
   });
   TodoView = Backbone.View.extend({
     tagName: 'li',
@@ -35,6 +36,7 @@
       this.model.set({
         completed: $(e.currentTarget).prop('checked')
       });
+      this.model.save();
       return this.render();
     },
     editDescription: function() {
@@ -65,12 +67,15 @@
       this.model.set({
         description: description
       });
+      this.model.save();
       return this.render();
     }
   });
   AppView = Backbone.View.extend({
     initialize: function() {
-      return app.todos.bind('add', this.addTodo, this);
+      app.todos.bind('add', this.addTodo, this);
+      app.todos.bind('reset', this.resetTodos, this);
+      return app.todos.fetch();
     },
     events: {
       'keyup #new-task-field': 'newTask'
@@ -94,6 +99,11 @@
       });
       todoView.render();
       return $('#todos-list').append(todoView.el);
+    },
+    resetTodos: function() {
+      return app.todos.each(__bind(function(todo) {
+        return this.addTodo(todo);
+      }, this));
     }
   });
   window.app = {

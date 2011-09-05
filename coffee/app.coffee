@@ -6,7 +6,7 @@ Todo = Backbone.Model.extend
 
 Todos = Backbone.Collection.extend
   model: Todo
-  localStorage: new Store('todos')
+  sessionStorage: new Store('todos')
 
 # Views
 TodoView = Backbone.View.extend
@@ -31,6 +31,7 @@ TodoView = Backbone.View.extend
 
   clickCompleted: (e) ->
     @model.set(completed: $(e.currentTarget).prop('checked'))
+    @model.save()
     @render()
 
   editDescription: ->
@@ -58,11 +59,15 @@ TodoView = Backbone.View.extend
   _setDescription: ->
     description = $.trim(@$('.edit-field').val())
     @model.set(description: description)
+    @model.save()
     @render()
 
 AppView = Backbone.View.extend
   initialize: ->
     app.todos.bind('add', @addTodo, this)
+    app.todos.bind('reset', @resetTodos, this)
+
+    app.todos.fetch()
 
   events:
     'keyup #new-task-field': 'newTask'
@@ -81,6 +86,10 @@ AppView = Backbone.View.extend
     todoView = new TodoView(model: todo)      
     todoView.render()
     $('#todos-list').append(todoView.el);
+
+  resetTodos: ->
+    app.todos.each (todo) =>
+      @addTodo(todo)
 
 # the main app
 window.app =
