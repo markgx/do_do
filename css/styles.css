@@ -18,6 +18,10 @@ body {
   width:  450px;
 }
 
+#todos-list {
+  padding-left: 0;
+}
+
 #todos-list li {
   width: 100%;
   list-style-type: none;
@@ -31,11 +35,16 @@ body {
 
 #todos-list li:hover {
   background-color: #eee;
+  border-bottom: 1px #aaa dotted;
 }
 
 #todos-list li.completed .description {
   text-decoration: line-through;
   color: #666;
+}
+
+#todos-list .move-handle {
+  cursor: move;
 }
 
 #todos-list .completed-div {
