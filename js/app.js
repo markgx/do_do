@@ -19,7 +19,10 @@
       'click .completed': 'clickCompleted',
       'dblclick .description': 'editDescription',
       'keyup .edit-field': 'updateDescription',
-      'blur .edit-field': 'updateDescription'
+      'blur .edit-field': 'updateDescription',
+      'click .delete': 'deleteTodo',
+      'mouseover': 'mouseOverTodo',
+      'mouseout': 'mouseOutTodo'
     },
     render: function() {
       $(this.el).html($('#todo-list-item').tmpl({
@@ -60,6 +63,31 @@
           return this.$('.description').removeClass('hidden');
         }
       }
+    },
+    deleteTodo: function(e) {
+      var view;
+      e.preventDefault();
+      view = this;
+      return $('#dialog-confirm-delete').dialog({
+        resizable: false,
+        modal: true,
+        buttons: {
+          'Delete': function() {
+            $(this).dialog('close');
+            view.model.destroy();
+            return view.remove();
+          },
+          'Cancel': function() {
+            return $(this).dialog('close');
+          }
+        }
+      });
+    },
+    mouseOverTodo: function() {
+      return this.$('.delete-div').removeClass('hidden');
+    },
+    mouseOutTodo: function() {
+      return this.$('.delete-div').addClass('hidden');
     },
     _setDescription: function() {
       var description;

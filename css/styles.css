@@ -4,17 +4,18 @@ body {
 }
 
 #dodo-container {
-  width: 60%;
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
 
 #new-task-field {
-  width: 90%;
+  width: 100%;
   font-size: 115%;
 }
 
 #todos-list li {
+  width: 100%;
   list-style-type: none;
 }
 

@@ -17,6 +17,9 @@ TodoView = Backbone.View.extend
     'dblclick .description': 'editDescription'
     'keyup .edit-field': 'updateDescription'
     'blur .edit-field': 'updateDescription'
+    'click .delete': 'deleteTodo'
+    'mouseover': 'mouseOverTodo'
+    'mouseout': 'mouseOutTodo'
 
   render: ->
     $(@el).html($('#todo-list-item').tmpl
@@ -55,6 +58,28 @@ TodoView = Backbone.View.extend
       else if e.keyCode is 27 # escape
         @$('.edit').addClass('hidden')
         @$('.description').removeClass('hidden')
+
+  deleteTodo: (e) ->
+    e.preventDefault()
+
+    view = this
+
+    $('#dialog-confirm-delete').dialog
+      resizable: false
+      modal: true
+      buttons:
+        'Delete': ->
+          $(this).dialog('close')
+          view.model.destroy()
+          view.remove()
+        'Cancel': ->
+          $(this).dialog('close')
+
+  mouseOverTodo: ->
+    @$('.delete-div').removeClass('hidden')
+
+  mouseOutTodo: ->
+    @$('.delete-div').addClass('hidden')
 
   _setDescription: ->
     description = $.trim(@$('.edit-field').val())
