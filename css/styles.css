@@ -14,14 +14,41 @@ body {
   font-size: 115%;
 }
 
+.edit-field {
+  width:  450px;
+}
+
 #todos-list li {
   width: 100%;
   list-style-type: none;
+  padding: 4px 6px;
+  border-bottom: 1px #ccc dotted;
+}
+
+#todos-list li:last-child {
+  border-bottom: none;
+}
+
+#todos-list li:hover {
+  background-color: #eee;
 }
 
 #todos-list li.completed .description {
   text-decoration: line-through;
   color: #666;
+}
+
+#todos-list .completed-div {
+  padding-right: 5px;
+}
+
+#todos-list .description, #todos-list .edit {
+  padding-right: 10px;
+}
+
+#todos-list .delete {
+  font-size: 80%;
+  color: red;
 }
 
 .inline {
