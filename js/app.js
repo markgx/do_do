@@ -120,7 +120,7 @@
       app.todos.bind('add', this.addTodo, this);
       app.todos.bind('reset', this.resetTodos, this);
       app.todos.fetch();
-      return this.$('#todos-list').sortable({
+      this.$('#todos-list').sortable({
         handle: '.move-handle',
         update: __bind(function(e, ui) {
           var newTodos;
@@ -138,6 +138,9 @@
           });
         }, this)
       });
+      if (app.todos.length === 0) {
+        return $('#empty-message').show();
+      }
     },
     events: {
       'keyup #new-task-field': 'newTask'
@@ -152,7 +155,8 @@
         description: $newTaskField.val()
       });
       app.todos.create(todo);
-      return $newTaskField.val('');
+      $newTaskField.val('');
+      return $('#empty-message').hide();
     },
     addTodo: function(todo) {
       var el, todoView;

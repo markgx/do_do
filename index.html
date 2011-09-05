@@ -24,9 +24,18 @@
   <div id="dodo-container">
     <h1>do do</h1>
 
-    <div><input id="new-task-field" type="text" placeholder="Enter new task" /></div>
+    <div><input id="new-task-field" type="text" placeholder="Enter new To-Do" /></div>
 
     <ul id="todos-list"></ul>
+
+    <div id="empty-message" class="ui-widget hidden">
+      <div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> 
+        <p>
+          <span class="ui-icon ui-icon-info" style="float: left; margin-right: .7em;"></span>
+          Hey, you don't look so busy. Enter some new To-Dos above.
+        </p>
+      </div>
+    </div>
 
     <div id="dialog-confirm-delete" title="Delete To-Do?" class="hidden">
       <p>

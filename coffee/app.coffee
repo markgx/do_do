@@ -124,6 +124,9 @@ AppView = Backbone.View.extend
 
         app.todos.sort(silent: true)
 
+    if app.todos.length is 0
+      $('#empty-message').show()
+
   events:
     'keyup #new-task-field': 'newTask'
 
@@ -136,6 +139,8 @@ AppView = Backbone.View.extend
     todo = new Todo(description: $newTaskField.val())
     app.todos.create(todo)
     $newTaskField.val('')
+
+    $('#empty-message').hide()
 
   addTodo: (todo) ->
     todoView = new TodoView(model: todo)      
