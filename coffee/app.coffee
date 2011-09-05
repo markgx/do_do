@@ -3,10 +3,20 @@ Todo = Backbone.Model.extend
   defaults: ->
     completed: false
     dateCreated: new Date
+    sortOrder: app.todos.nextSortOrder()
 
 Todos = Backbone.Collection.extend
   model: Todo
   localStorage: new Store('todos')
+
+  comparator: (todo) ->
+    todo.get('sortOrder')
+
+  nextSortOrder: ->
+    if @length is 0
+      return 0
+    else
+      return @last().get('sortOrder') + 1
 
 # Views
 TodoView = Backbone.View.extend
@@ -22,6 +32,8 @@ TodoView = Backbone.View.extend
     'mouseout': 'mouseOutTodo'
 
   render: ->
+    $(@el).data('id', @model.get('id'))
+
     $(@el).html($('#todo-list-item').tmpl
       description: @model.get('description')
       completed: @model.get('completed')
@@ -80,9 +92,11 @@ TodoView = Backbone.View.extend
 
   mouseOverTodo: ->
     @$('.delete-div').removeClass('hidden')
+    @$('.move-handle').removeClass('invisible')
 
   mouseOutTodo: ->
     @$('.delete-div').addClass('hidden')
+    @$('.move-handle').addClass('invisible')
 
   _setDescription: ->
     description = $.trim(@$('.edit-field').val())
@@ -96,6 +110,17 @@ AppView = Backbone.View.extend
     app.todos.bind('reset', @resetTodos, this)
 
     app.todos.fetch()
+
+    @$('#todos-list').sortable
+      handle: '.move-handle'
+      update: (e, ui) =>
+        newTodos = $.makeArray(@$('#todos-list li')).reverse()
+
+        _(newTodos).each((el, i) ->
+          todo = app.todos.get($(el).data('id'))
+          todo.set(sortOrder: i)
+          todo.save()
+        )
 
   events:
     'keyup #new-task-field': 'newTask'

@@ -55,6 +55,10 @@ body {
   display: inline;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .hidden {
   display: none;
 }

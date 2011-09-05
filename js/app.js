@@ -5,13 +5,24 @@
     defaults: function() {
       return {
         completed: false,
-        dateCreated: new Date
+        dateCreated: new Date,
+        sortOrder: app.todos.nextSortOrder()
       };
     }
   });
   Todos = Backbone.Collection.extend({
     model: Todo,
-    localStorage: new Store('todos')
+    localStorage: new Store('todos'),
+    comparator: function(todo) {
+      return todo.get('sortOrder');
+    },
+    nextSortOrder: function() {
+      if (this.length === 0) {
+        return 0;
+      } else {
+        return this.last().get('sortOrder') + 1;
+      }
+    }
   });
   TodoView = Backbone.View.extend({
     tagName: 'li',
@@ -25,6 +36,7 @@
       'mouseout': 'mouseOutTodo'
     },
     render: function() {
+      $(this.el).data('id', this.model.get('id'));
       $(this.el).html($('#todo-list-item').tmpl({
         description: this.model.get('description'),
         completed: this.model.get('completed')
@@ -86,10 +98,12 @@
       });
     },
     mouseOverTodo: function() {
-      return this.$('.delete-div').removeClass('hidden');
+      this.$('.delete-div').removeClass('hidden');
+      return this.$('.move-handle').removeClass('invisible');
     },
     mouseOutTodo: function() {
-      return this.$('.delete-div').addClass('hidden');
+      this.$('.delete-div').addClass('hidden');
+      return this.$('.move-handle').addClass('invisible');
     },
     _setDescription: function() {
       var description;
@@ -105,7 +119,22 @@
     initialize: function() {
       app.todos.bind('add', this.addTodo, this);
       app.todos.bind('reset', this.resetTodos, this);
-      return app.todos.fetch();
+      app.todos.fetch();
+      return this.$('#todos-list').sortable({
+        handle: '.move-handle',
+        update: __bind(function(e, ui) {
+          var newTodos;
+          newTodos = $.makeArray(this.$('#todos-list li')).reverse();
+          return _(newTodos).each(function(el, i) {
+            var todo;
+            todo = app.todos.get($(el).data('id'));
+            todo.set({
+              sortOrder: i
+            });
+            return todo.save();
+          });
+        }, this)
+      });
     },
     events: {
       'keyup #new-task-field': 'newTask'
