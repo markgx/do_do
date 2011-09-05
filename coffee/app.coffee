@@ -14,13 +14,51 @@ TodoView = Backbone.View.extend
 
   events:
     'click .completed': 'clickCompleted'
+    'dblclick .description': 'editDescription'
+    'keyup .edit-field': 'updateDescription'
+    'blur .edit-field': 'updateDescription'
 
   render: ->
-    $(this.el).html($('#todo-list-item').tmpl(description: this.model.get('description')))
+    $(@el).html($('#todo-list-item').tmpl
+      description: @model.get('description')
+      completed: @model.get('completed')
+    )
+
+    if @model.get('completed')
+      $(@el).addClass('completed')
+    else
+      $(@el).removeClass('completed')
 
   clickCompleted: (e) ->
-    # TODO: set completed
-    alert('TODO');
+    @model.set(completed: $(e.currentTarget).prop('checked'))
+    @render()
+
+  editDescription: ->
+    @$('.description').addClass('hidden')
+    @$('.edit-field').val(@model.get('description'))
+    @$('.edit').removeClass('hidden')
+    @$('.edit-field').focus()
+
+    # set cursor at end of textbox
+    description = @$('.edit-field').val()
+    @$('.edit-field').val('')
+    @$('.edit-field').val(description)
+
+  updateDescription: (e) ->
+    if e.type is 'focusout'
+      @_setDescription()
+      return
+    else if e.type is 'keyup'
+      if e.keyCode is 13 # enter
+        @_setDescription()
+      else if e.keyCode is 27 # escape
+        @$('.edit').addClass('hidden')
+        @$('.description').removeClass('hidden')
+
+  _setDescription: ->
+    description = $.trim(@$('.edit-field').val())
+    @model.set(description: description)
+    @render()
 
 AppView = Backbone.View.extend
   initialize: ->

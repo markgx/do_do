@@ -15,15 +15,57 @@
   TodoView = Backbone.View.extend({
     tagName: 'li',
     events: {
-      'click .completed': 'clickCompleted'
+      'click .completed': 'clickCompleted',
+      'dblclick .description': 'editDescription',
+      'keyup .edit-field': 'updateDescription',
+      'blur .edit-field': 'updateDescription'
     },
     render: function() {
-      return $(this.el).html($('#todo-list-item').tmpl({
-        description: this.model.get('description')
+      $(this.el).html($('#todo-list-item').tmpl({
+        description: this.model.get('description'),
+        completed: this.model.get('completed')
       }));
+      if (this.model.get('completed')) {
+        return $(this.el).addClass('completed');
+      } else {
+        return $(this.el).removeClass('completed');
+      }
     },
     clickCompleted: function(e) {
-      return alert('TODO');
+      this.model.set({
+        completed: $(e.currentTarget).prop('checked')
+      });
+      return this.render();
+    },
+    editDescription: function() {
+      var description;
+      this.$('.description').addClass('hidden');
+      this.$('.edit-field').val(this.model.get('description'));
+      this.$('.edit').removeClass('hidden');
+      this.$('.edit-field').focus();
+      description = this.$('.edit-field').val();
+      this.$('.edit-field').val('');
+      return this.$('.edit-field').val(description);
+    },
+    updateDescription: function(e) {
+      if (e.type === 'focusout') {
+        this._setDescription();
+      } else if (e.type === 'keyup') {
+        if (e.keyCode === 13) {
+          return this._setDescription();
+        } else if (e.keyCode === 27) {
+          this.$('.edit').addClass('hidden');
+          return this.$('.description').removeClass('hidden');
+        }
+      }
+    },
+    _setDescription: function() {
+      var description;
+      description = $.trim(this.$('.edit-field').val());
+      this.model.set({
+        description: description
+      });
+      return this.render();
     }
   });
   AppView = Backbone.View.extend({

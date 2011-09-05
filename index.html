@@ -29,8 +29,8 @@
     <ul id="todos-list"></ul>
 
     <script id="todo-list-item" type="text/x-jQuery-tmpl">
-      <div class="inline"><input type="checkbox" class="completed" /></div>
-      <div class="display inline">${description}</div>
+      <div class="inline"><input type="checkbox" class="completed" {{if completed}}checked="checked"{{/if}} /></div>
+      <div class="description display inline">${description}</div>
       <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
     </script>
   </div>

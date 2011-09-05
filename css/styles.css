@@ -18,6 +18,11 @@ body {
   list-style-type: none;
 }
 
+#todos-list li.completed .description {
+  text-decoration: line-through;
+  color: #666;
+}
+
 .inline {
   display: inline;
 }
