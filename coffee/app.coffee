@@ -71,7 +71,10 @@ TodoView = Backbone.View.extend
         'Delete': ->
           $(this).dialog('close')
           view.model.destroy()
-          view.remove()
+          $(view.el).slideUp(100, ->
+            view.remove()
+          )
+
         'Cancel': ->
           $(this).dialog('close')
 
@@ -110,7 +113,12 @@ AppView = Backbone.View.extend
   addTodo: (todo) ->
     todoView = new TodoView(model: todo)      
     todoView.render()
-    $('#todos-list').append(todoView.el);
+
+    # animate adding to list
+    el = $(todoView.el)
+    el.hide()
+    $('#todos-list').prepend(el)
+    el.slideDown(100)
 
   resetTodos: ->
     app.todos.each (todo) =>

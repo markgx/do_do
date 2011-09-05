@@ -75,7 +75,9 @@
           'Delete': function() {
             $(this).dialog('close');
             view.model.destroy();
-            return view.remove();
+            return $(view.el).slideUp(100, function() {
+              return view.remove();
+            });
           },
           'Cancel': function() {
             return $(this).dialog('close');
@@ -121,12 +123,15 @@
       return $newTaskField.val('');
     },
     addTodo: function(todo) {
-      var todoView;
+      var el, todoView;
       todoView = new TodoView({
         model: todo
       });
       todoView.render();
-      return $('#todos-list').append(todoView.el);
+      el = $(todoView.el);
+      el.hide();
+      $('#todos-list').prepend(el);
+      return el.slideDown(100);
     },
     resetTodos: function() {
       return app.todos.each(__bind(function(todo) {
