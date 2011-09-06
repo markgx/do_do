@@ -11,12 +11,14 @@
   <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
   <script src="js/underscore-1.1.7-min.js"></script>
   <script src="js/backbone-0.5.3-min.js"></script>
+  <script src="js/jquery.timeago.js"></script>
   <script src="js/backbone.localStorage-1.0.js"></script>
   <script src="js/app.js"></script>
 
   <script>
     $(document).ready(function() {
       app.init();
+      $('.timeago').timeago();
     })
   </script>
 </head>
@@ -49,6 +51,7 @@
       <div class="completed-div inline"><input type="checkbox" class="completed" {{if completed}}checked="checked"{{/if}} /></div>
       <div class="description display inline">${description}</div>
       <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
+      <div class="date-completed inline timeago" title="${dateCompleted}">${dateCompleted}</div>
       <div class="delete-div inline hidden"><a href="#" class="delete">Delete</a></div>
     </script>
   </div>

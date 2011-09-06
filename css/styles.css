@@ -60,6 +60,11 @@ body {
   padding-right: 10px;
 }
 
+#todos-list .date-completed {
+  font-size: 80%;
+  color: #888;
+}
+
 #todos-list .delete {
   font-size: 80%;
   color: red;
