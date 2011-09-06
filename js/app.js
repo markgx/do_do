@@ -6,6 +6,7 @@
       return {
         completed: false,
         dateCreated: new Date,
+        dateCompleted: null,
         sortOrder: app.todos.nextSortOrder()
       };
     }
@@ -39,7 +40,8 @@
       $(this.el).data('id', this.model.get('id'));
       $(this.el).html($('#todo-list-item').tmpl({
         description: this.model.get('description'),
-        completed: this.model.get('completed')
+        completed: this.model.get('completed'),
+        dateCompleted: (this.model.get('dateCompleted') ? this.model.get('dateCompleted').toISOString() : '')
       }));
       if (this.model.get('completed')) {
         return $(this.el).addClass('completed');
@@ -48,11 +50,23 @@
       }
     },
     clickCompleted: function(e) {
+      var completed;
+      completed = $(e.currentTarget).prop('checked');
       this.model.set({
-        completed: $(e.currentTarget).prop('checked')
+        completed: completed
       });
+      if (completed) {
+        this.model.set({
+          dateCompleted: new Date
+        });
+      } else {
+        this.model.set({
+          dateCompleted: null
+        });
+      }
       this.model.save();
-      return this.render();
+      this.render();
+      return $('.timeago').timeago();
     },
     editDescription: function() {
       var description;

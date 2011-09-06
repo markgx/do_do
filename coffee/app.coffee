@@ -3,6 +3,7 @@ Todo = Backbone.Model.extend
   defaults: ->
     completed: false
     dateCreated: new Date
+    dateCompleted: null
     sortOrder: app.todos.nextSortOrder()
 
 Todos = Backbone.Collection.extend
@@ -37,6 +38,7 @@ TodoView = Backbone.View.extend
     $(@el).html($('#todo-list-item').tmpl
       description: @model.get('description')
       completed: @model.get('completed')
+      dateCompleted: (if @model.get('dateCompleted') then @model.get('dateCompleted').toISOString() else '')
     )
 
     if @model.get('completed')
@@ -45,9 +47,17 @@ TodoView = Backbone.View.extend
       $(@el).removeClass('completed')
 
   clickCompleted: (e) ->
-    @model.set(completed: $(e.currentTarget).prop('checked'))
+    completed = $(e.currentTarget).prop('checked')
+    @model.set(completed: completed)
+
+    if completed
+      @model.set(dateCompleted: new Date)
+    else
+      @model.set(dateCompleted: null)
+
     @model.save()
     @render()
+    $('.timeago').timeago();
 
   editDescription: ->
     @$('.description').addClass('hidden')
