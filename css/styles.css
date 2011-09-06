@@ -1,0 +1,77 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 100%;
+}
+
+#dodo-container {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#new-task-field {
+  width: 100%;
+  font-size: 115%;
+}
+
+.edit-field {
+  width:  450px;
+}
+
+#todos-list {
+  padding-left: 0;
+}
+
+#todos-list li {
+  width: 100%;
+  list-style-type: none;
+  padding: 4px 6px;
+  border-bottom: 1px #ccc dotted;
+}
+
+#todos-list li:last-child {
+  border-bottom: none;
+}
+
+#todos-list li:hover {
+  background-color: #eee;
+  border-bottom: 1px #aaa dotted;
+}
+
+#todos-list li.completed .description {
+  text-decoration: line-through;
+  color: #666;
+}
+
+#todos-list .move-handle {
+  cursor: move;
+}
+
+#todos-list .completed-div {
+  padding-right: 5px;
+}
+
+#todos-list .description, #todos-list .edit {
+  padding-right: 10px;
+}
+
+#todos-list .delete {
+  font-size: 80%;
+  color: red;
+}
+
+.inline {
+  display: inline;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
