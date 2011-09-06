@@ -27,11 +27,16 @@ body {
   list-style-type: none;
   padding: 4px 6px;
   border-bottom: 1px #ccc dotted;
+  -webkit-transition: background-color 0.1s linear;
+  -moz-transition: background-color 0.1s linear;
+  -o-transition: background-color 0.1s linear;
+  transition: background-color 0.1s linear;
 }
 
 #todos-list li:last-child {
   border-bottom: none;
 }
+
 
 #todos-list li:hover {
   background-color: #eee;
