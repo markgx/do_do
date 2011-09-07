@@ -52,6 +52,14 @@ body {
   cursor: move;
 }
 
+#todos-list .unstarred {
+  opacity: 0;
+}
+
+#todos-list .starred {
+  opacity: 1;
+}
+
 #todos-list .completed-div {
   padding-right: 5px;
 }
@@ -72,6 +80,10 @@ body {
 
 .inline {
   display: inline;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .invisible {
