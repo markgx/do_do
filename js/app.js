@@ -56,7 +56,7 @@
       this.model.set({
         starred: !this.model.get('starred')
       });
-      this.model.save;
+      this.model.save();
       return this.render();
     },
     clickCompleted: function(e) {
