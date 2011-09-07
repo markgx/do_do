@@ -67,7 +67,7 @@ TodoView = Backbone.View.extend
 
     @model.save()
     @render()
-    $('.timeago').timeago();
+    $('.timeago').timeago()
 
   editDescription: ->
     @$('.description').addClass('hidden')
