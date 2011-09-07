@@ -33,6 +33,10 @@ body {
   transition: background-color 0.1s linear;
 }
 
+#todos-list li div {
+  vertical-align: middle;
+}
+
 #todos-list li:last-child {
   border-bottom: none;
 }
@@ -52,6 +56,10 @@ body {
   cursor: move;
 }
 
+#todos-list .star {
+  cursor: pointer;
+}
+
 #todos-list .unstarred {
   opacity: 0;
 }
@@ -62,6 +70,10 @@ body {
 
 #todos-list .completed-div {
   padding-right: 5px;
+}
+
+#todos-list .description {
+  width: 360px;
 }
 
 #todos-list .description, #todos-list .edit, #todos-list .date-completed {
