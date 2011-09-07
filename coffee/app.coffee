@@ -5,7 +5,7 @@ Todo = Backbone.Model.extend
     starred: false
     dateCreated: new Date
     dateCompleted: null
-    sortOrder: app.todos.nextSortOrder()
+    sortOrder: todos.nextSortOrder()
 
 Todos = Backbone.Collection.extend
   model: Todo
@@ -19,6 +19,8 @@ Todos = Backbone.Collection.extend
       return 0
     else
       return @last().get('sortOrder') + 1
+
+todos = new Todos
 
 # Views
 TodoView = Backbone.View.extend
@@ -130,11 +132,11 @@ TodoView = Backbone.View.extend
 
 window.AppView = Backbone.View.extend
   initialize: ->
-    @todos = new Todos
-    @todos.bind('add', @addTodo, this)
-    @todos.bind('reset', @resetTodos, this)
+    todos = new Todos
+    todos.bind('add', @addTodo, this)
+    todos.bind('reset', @resetTodos, this)
 
-    @todos.fetch()
+    todos.fetch()
 
     @$('#todos-list').sortable
       handle: '.move-handle'
@@ -142,14 +144,14 @@ window.AppView = Backbone.View.extend
         newTodos = $.makeArray(@$('#todos-list li')).reverse()
 
         _(newTodos).each((el, i) ->
-          todo = @todos.get($(el).data('id'))
+          todo = todos.get($(el).data('id'))
           todo.set(sortOrder: i)
           todo.save()
         )
 
-        @todos.sort(silent: true)
+        todos.sort(silent: true)
 
-    if @todos.length is 0
+    if todos.length is 0
       $('#empty-message').show()
 
   events:
@@ -162,7 +164,7 @@ window.AppView = Backbone.View.extend
       return
 
     todo = new Todo(description: $newTaskField.val())
-    @todos.create(todo)
+    todos.create(todo)
     $newTaskField.val('')
 
     $('#empty-message').hide()
@@ -178,5 +180,5 @@ window.AppView = Backbone.View.extend
     el.slideDown(100)
 
   resetTodos: ->
-    @todos.each (todo) =>
+    todos.each (todo) =>
       @addTodo(todo)
