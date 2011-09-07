@@ -51,7 +51,7 @@ TodoView = Backbone.View.extend
 
   toggleStarred: ->
     @model.set(starred: !@model.get('starred'))
-    @model.save
+    @model.save()
     @render()
 
   clickCompleted: (e) ->
