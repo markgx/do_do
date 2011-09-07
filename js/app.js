@@ -44,7 +44,7 @@
         starred: this.model.get('starred'),
         description: this.model.get('description'),
         completed: this.model.get('completed'),
-        dateCompleted: (this.model.get('dateCompleted') ? this.model.get('dateCompleted').toISOString() : '')
+        dateCompleted: (this.model.get('dateCompleted') ? this.model.get('dateCompleted') : '')
       }));
       if (this.model.get('completed')) {
         return $(this.el).addClass('completed');

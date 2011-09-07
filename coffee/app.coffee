@@ -41,7 +41,7 @@ TodoView = Backbone.View.extend
       starred: @model.get('starred')
       description: @model.get('description')
       completed: @model.get('completed')
-      dateCompleted: (if @model.get('dateCompleted') then @model.get('dateCompleted').toISOString() else '')
+      dateCompleted: (if @model.get('dateCompleted') then @model.get('dateCompleted') else '')
     )
 
     if @model.get('completed')
