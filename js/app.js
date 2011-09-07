@@ -5,6 +5,7 @@
     defaults: function() {
       return {
         completed: false,
+        starred: false,
         dateCreated: new Date,
         dateCompleted: null,
         sortOrder: app.todos.nextSortOrder()
@@ -28,6 +29,7 @@
   TodoView = Backbone.View.extend({
     tagName: 'li',
     events: {
+      'click .star': 'toggleStarred',
       'click .completed': 'clickCompleted',
       'dblclick .description': 'editDescription',
       'keyup .edit-field': 'updateDescription',
@@ -39,6 +41,7 @@
     render: function() {
       $(this.el).data('id', this.model.get('id'));
       $(this.el).html($('#todo-list-item').tmpl({
+        starred: this.model.get('starred'),
         description: this.model.get('description'),
         completed: this.model.get('completed'),
         dateCompleted: (this.model.get('dateCompleted') ? this.model.get('dateCompleted').toISOString() : '')
@@ -48,6 +51,13 @@
       } else {
         return $(this.el).removeClass('completed');
       }
+    },
+    toggleStarred: function() {
+      this.model.set({
+        starred: !this.model.get('starred')
+      });
+      this.model.save;
+      return this.render();
     },
     clickCompleted: function(e) {
       var completed;
@@ -113,11 +123,17 @@
     },
     mouseOverTodo: function() {
       this.$('.delete-div').removeClass('hidden');
-      return this.$('.move-handle').removeClass('invisible');
+      this.$('.move-handle').removeClass('invisible');
+      if (!this.model.get('starred')) {
+        return this.$('.star').css('opacity', 0.5);
+      }
     },
     mouseOutTodo: function() {
       this.$('.delete-div').addClass('hidden');
-      return this.$('.move-handle').addClass('invisible');
+      this.$('.move-handle').addClass('invisible');
+      if (!this.model.get('starred')) {
+        return this.$('.star').css('opacity', '');
+      }
     },
     _setDescription: function() {
       var description;

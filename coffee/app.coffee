@@ -2,6 +2,7 @@
 Todo = Backbone.Model.extend
   defaults: ->
     completed: false
+    starred: false
     dateCreated: new Date
     dateCompleted: null
     sortOrder: app.todos.nextSortOrder()
@@ -24,6 +25,7 @@ TodoView = Backbone.View.extend
   tagName: 'li'
 
   events:
+    'click .star': 'toggleStarred'
     'click .completed': 'clickCompleted'
     'dblclick .description': 'editDescription'
     'keyup .edit-field': 'updateDescription'
@@ -36,6 +38,7 @@ TodoView = Backbone.View.extend
     $(@el).data('id', @model.get('id'))
 
     $(@el).html($('#todo-list-item').tmpl
+      starred: @model.get('starred')
       description: @model.get('description')
       completed: @model.get('completed')
       dateCompleted: (if @model.get('dateCompleted') then @model.get('dateCompleted').toISOString() else '')
@@ -45,6 +48,11 @@ TodoView = Backbone.View.extend
       $(@el).addClass('completed')
     else
       $(@el).removeClass('completed')
+
+  toggleStarred: ->
+    @model.set(starred: !@model.get('starred'))
+    @model.save
+    @render()
 
   clickCompleted: (e) ->
     completed = $(e.currentTarget).prop('checked')
@@ -104,9 +112,15 @@ TodoView = Backbone.View.extend
     @$('.delete-div').removeClass('hidden')
     @$('.move-handle').removeClass('invisible')
 
+    if not @model.get('starred')
+      @$('.star').css('opacity', 0.5)
+
   mouseOutTodo: ->
     @$('.delete-div').addClass('hidden')
     @$('.move-handle').addClass('invisible')
+
+    if not @model.get('starred')
+      @$('.star').css('opacity', '')
 
   _setDescription: ->
     description = $.trim(@$('.edit-field').val())
