@@ -54,7 +54,7 @@
       <div class="completed-div inline"><input type="checkbox" class="completed" {{if completed}}checked="checked"{{/if}} /></div>
       <div class="description display inline">${description}</div>
       <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
-      <div class="date-completed inline timeago" title="${dateCompleted}">${dateCompleted}</div>
+      {{if completed}}<div class="date-completed inline timeago" title="${dateCompleted}">${dateCompleted}</div>{{/if}}
       <div class="delete-div inline hidden"><a href="#" class="delete">Delete</a></div>
     </script>
   </div>
