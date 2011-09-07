@@ -17,8 +17,7 @@
 
   <script>
     $(document).ready(function() {
-      app.init();
-      $('.timeago').timeago();
+      window.app = new AppView({ el: $('#dodo-container') });
     })
   </script>
 </head>

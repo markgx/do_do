@@ -128,12 +128,13 @@ TodoView = Backbone.View.extend
     @model.save()
     @render()
 
-AppView = Backbone.View.extend
+window.AppView = Backbone.View.extend
   initialize: ->
-    app.todos.bind('add', @addTodo, this)
-    app.todos.bind('reset', @resetTodos, this)
+    @todos = new Todos
+    @todos.bind('add', @addTodo, this)
+    @todos.bind('reset', @resetTodos, this)
 
-    app.todos.fetch()
+    @todos.fetch()
 
     @$('#todos-list').sortable
       handle: '.move-handle'
@@ -141,14 +142,14 @@ AppView = Backbone.View.extend
         newTodos = $.makeArray(@$('#todos-list li')).reverse()
 
         _(newTodos).each((el, i) ->
-          todo = app.todos.get($(el).data('id'))
+          todo = @todos.get($(el).data('id'))
           todo.set(sortOrder: i)
           todo.save()
         )
 
-        app.todos.sort(silent: true)
+        @todos.sort(silent: true)
 
-    if app.todos.length is 0
+    if @todos.length is 0
       $('#empty-message').show()
 
   events:
@@ -161,7 +162,7 @@ AppView = Backbone.View.extend
       return
 
     todo = new Todo(description: $newTaskField.val())
-    app.todos.create(todo)
+    @todos.create(todo)
     $newTaskField.val('')
 
     $('#empty-message').hide()
@@ -177,13 +178,5 @@ AppView = Backbone.View.extend
     el.slideDown(100)
 
   resetTodos: ->
-    app.todos.each (todo) =>
+    @todos.each (todo) =>
       @addTodo(todo)
-
-# the main app
-window.app =
-  views: {}
-
-  init: ->
-    app.todos = new Todos
-    app.views.appView = new AppView(el: $('#dodo-container'))
