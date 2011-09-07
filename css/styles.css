@@ -64,7 +64,7 @@ body {
   padding-right: 5px;
 }
 
-#todos-list .description, #todos-list .edit {
+#todos-list .description, #todos-list .edit, #todos-list .date-completed {
   padding-right: 10px;
 }
 

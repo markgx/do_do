@@ -1,5 +1,5 @@
 (function() {
-  var AppView, Todo, TodoView, Todos;
+  var Todo, TodoView, Todos;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Todo = Backbone.Model.extend({
     defaults: function() {
@@ -67,7 +67,7 @@
       });
       if (completed) {
         this.model.set({
-          dateCompleted: new Date
+          dateCompleted: (new Date).toISOString()
         });
       } else {
         this.model.set({
@@ -145,11 +145,12 @@
       return this.render();
     }
   });
-  AppView = Backbone.View.extend({
+  window.AppView = Backbone.View.extend({
     initialize: function() {
-      app.todos.bind('add', this.addTodo, this);
-      app.todos.bind('reset', this.resetTodos, this);
-      app.todos.fetch();
+      this.todos = new Todos;
+      this.todos.bind('add', this.addTodo, this);
+      this.todos.bind('reset', this.resetTodos, this);
+      this.todos.fetch();
       this.$('#todos-list').sortable({
         handle: '.move-handle',
         update: __bind(function(e, ui) {
@@ -157,18 +158,18 @@
           newTodos = $.makeArray(this.$('#todos-list li')).reverse();
           _(newTodos).each(function(el, i) {
             var todo;
-            todo = app.todos.get($(el).data('id'));
+            todo = this.todos.get($(el).data('id'));
             todo.set({
               sortOrder: i
             });
             return todo.save();
           });
-          return app.todos.sort({
+          return this.todos.sort({
             silent: true
           });
         }, this)
       });
-      if (app.todos.length === 0) {
+      if (this.todos.length === 0) {
         return $('#empty-message').show();
       }
     },
@@ -184,7 +185,7 @@
       todo = new Todo({
         description: $newTaskField.val()
       });
-      app.todos.create(todo);
+      this.todos.create(todo);
       $newTaskField.val('');
       return $('#empty-message').hide();
     },
@@ -200,18 +201,9 @@
       return el.slideDown(100);
     },
     resetTodos: function() {
-      return app.todos.each(__bind(function(todo) {
+      return this.todos.each(__bind(function(todo) {
         return this.addTodo(todo);
       }, this));
     }
   });
-  window.app = {
-    views: {},
-    init: function() {
-      app.todos = new Todos;
-      return app.views.appView = new AppView({
-        el: $('#dodo-container')
-      });
-    }
-  };
 }).call(this);
