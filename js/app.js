@@ -1,5 +1,5 @@
 (function() {
-  var Todo, TodoView, Todos;
+  var Todo, TodoView, Todos, todos;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Todo = Backbone.Model.extend({
     defaults: function() {
@@ -8,7 +8,7 @@
         starred: false,
         dateCreated: new Date,
         dateCompleted: null,
-        sortOrder: app.todos.nextSortOrder()
+        sortOrder: todos.nextSortOrder()
       };
     }
   });
@@ -26,6 +26,7 @@
       }
     }
   });
+  todos = new Todos;
   TodoView = Backbone.View.extend({
     tagName: 'li',
     events: {
@@ -147,10 +148,10 @@
   });
   window.AppView = Backbone.View.extend({
     initialize: function() {
-      this.todos = new Todos;
-      this.todos.bind('add', this.addTodo, this);
-      this.todos.bind('reset', this.resetTodos, this);
-      this.todos.fetch();
+      todos = new Todos;
+      todos.bind('add', this.addTodo, this);
+      todos.bind('reset', this.resetTodos, this);
+      todos.fetch();
       this.$('#todos-list').sortable({
         handle: '.move-handle',
         update: __bind(function(e, ui) {
@@ -158,18 +159,18 @@
           newTodos = $.makeArray(this.$('#todos-list li')).reverse();
           _(newTodos).each(function(el, i) {
             var todo;
-            todo = this.todos.get($(el).data('id'));
+            todo = todos.get($(el).data('id'));
             todo.set({
               sortOrder: i
             });
             return todo.save();
           });
-          return this.todos.sort({
+          return todos.sort({
             silent: true
           });
         }, this)
       });
-      if (this.todos.length === 0) {
+      if (todos.length === 0) {
         return $('#empty-message').show();
       }
     },
@@ -185,7 +186,7 @@
       todo = new Todo({
         description: $newTaskField.val()
       });
-      this.todos.create(todo);
+      todos.create(todo);
       $newTaskField.val('');
       return $('#empty-message').hide();
     },
@@ -201,7 +202,7 @@
       return el.slideDown(100);
     },
     resetTodos: function() {
-      return this.todos.each(__bind(function(todo) {
+      return todos.each(__bind(function(todo) {
         return this.addTodo(todo);
       }, this));
     }
