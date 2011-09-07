@@ -59,7 +59,7 @@ TodoView = Backbone.View.extend
     @model.set(completed: completed)
 
     if completed
-      @model.set(dateCompleted: new Date)
+      @model.set(dateCompleted: (new Date).toISOString())
     else
       @model.set(dateCompleted: null)
 

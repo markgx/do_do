@@ -67,7 +67,7 @@
       });
       if (completed) {
         this.model.set({
-          dateCompleted: new Date
+          dateCompleted: (new Date).toISOString()
         });
       } else {
         this.model.set({
