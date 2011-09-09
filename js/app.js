@@ -48,10 +48,11 @@
         dateCompleted: (this.model.get('dateCompleted') ? this.model.get('dateCompleted') : '')
       }));
       if (this.model.get('completed')) {
-        return $(this.el).addClass('completed');
+        $(this.el).addClass('completed');
       } else {
-        return $(this.el).removeClass('completed');
+        $(this.el).removeClass('completed');
       }
+      return $('.timeago').timeago();
     },
     toggleStarred: function() {
       this.model.set({
@@ -76,8 +77,7 @@
         });
       }
       this.model.save();
-      this.render();
-      return $('.timeago').timeago();
+      return this.render();
     },
     editDescription: function() {
       var description;
