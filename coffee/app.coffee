@@ -112,14 +112,14 @@ TodoView = Backbone.View.extend
           $(this).dialog('close')
 
   mouseOverTodo: ->
-    @$('.delete-div').removeClass('hidden')
+    @$('.delete').removeClass('invisible')
     @$('.move-handle').removeClass('invisible')
 
     if not @model.get('starred')
       @$('.star').css('opacity', 0.5)
 
   mouseOutTodo: ->
-    @$('.delete-div').addClass('hidden')
+    @$('.delete').addClass('invisible')
     @$('.move-handle').addClass('invisible')
 
     if not @model.get('starred')

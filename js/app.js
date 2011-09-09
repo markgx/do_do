@@ -123,14 +123,14 @@
       });
     },
     mouseOverTodo: function() {
-      this.$('.delete-div').removeClass('hidden');
+      this.$('.delete').removeClass('invisible');
       this.$('.move-handle').removeClass('invisible');
       if (!this.model.get('starred')) {
         return this.$('.star').css('opacity', 0.5);
       }
     },
     mouseOutTodo: function() {
-      this.$('.delete-div').addClass('hidden');
+      this.$('.delete').addClass('invisible');
       this.$('.move-handle').addClass('invisible');
       if (!this.model.get('starred')) {
         return this.$('.star').css('opacity', '');
