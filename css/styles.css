@@ -87,8 +87,12 @@ body {
 }
 
 #todos-list .delete {
-  font-size: 80%;
-  color: red;
+  cursor: pointer;
+  opacity: .6;
+}
+
+#todos-list .delete:hover {
+  opacity: 1;
 }
 
 .inline {
