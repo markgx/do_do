@@ -51,6 +51,8 @@ TodoView = Backbone.View.extend
     else
       $(@el).removeClass('completed')
 
+    $('.timeago').timeago()
+
   toggleStarred: ->
     @model.set(starred: !@model.get('starred'))
     @model.save()
@@ -67,7 +69,6 @@ TodoView = Backbone.View.extend
 
     @model.save()
     @render()
-    $('.timeago').timeago()
 
   editDescription: ->
     @$('.description').addClass('hidden')
