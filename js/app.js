@@ -6,10 +6,37 @@
       return {
         completed: false,
         starred: false,
+        tags: [],
         dateCreated: new Date,
         dateCompleted: null,
         sortOrder: todos.nextSortOrder()
       };
+    },
+    descriptionPlusTags: function() {
+      var description;
+      description = this.get('description');
+      if (this.get('tags').length > 0) {
+        description += ' ' + _(this.get('tags')).map(function(t) {
+          return "#" + t;
+        }).join(' ');
+      }
+      return description;
+    },
+    parseTagsFromDescription: function() {
+      var matches, tagMatches, tagString;
+      matches = this.get('description').match(/[^#]+(#.*)+$/);
+      if (matches) {
+        this.set({
+          'description': this.get('description').replace(matches[1], '').trim()
+        });
+        tagString = matches[1];
+        tagMatches = tagString.match(/#([\w-])+/g);
+        return this.set({
+          tags: _(tagMatches).map(function(t) {
+            return t.replace('#', '');
+          })
+        });
+      }
     }
   });
   Todos = Backbone.Collection.extend({
@@ -44,6 +71,7 @@
       $(this.el).html($('#todo-list-item').tmpl({
         starred: this.model.get('starred'),
         description: this.model.get('description'),
+        tags: this.model.get('tags'),
         completed: this.model.get('completed'),
         dateCompleted: (this.model.get('dateCompleted') ? this.model.get('dateCompleted') : '')
       }));
@@ -82,7 +110,7 @@
     editDescription: function() {
       var description;
       this.$('.description').addClass('hidden');
-      this.$('.edit-field').val(this.model.get('description'));
+      this.$('.edit-field').val(this.model.descriptionPlusTags());
       this.$('.edit').removeClass('hidden');
       this.$('.edit-field').focus();
       description = this.$('.edit-field').val();
@@ -142,6 +170,7 @@
       this.model.set({
         description: description
       });
+      this.model.parseTagsFromDescription();
       this.model.save();
       return this.render();
     }
@@ -186,6 +215,7 @@
       todo = new Todo({
         description: $newTaskField.val()
       });
+      todo.parseTagsFromDescription();
       todos.create(todo);
       $newTaskField.val('');
       return $('#empty-message').hide();

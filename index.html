@@ -52,7 +52,14 @@
       <div class="move-handle inline-block invisible"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></div>
       <div class="star inline-block {{if starred}}starred{{else}}unstarred{{/if}}"><span class="ui-icon ui-icon-star"></span></div>
       <div class="completed-div inline"><input type="checkbox" class="completed" {{if completed}}checked="checked"{{/if}} /></div>
-      <div class="description display inline-block">${description}</div>
+      <div class="description display inline-block">
+        ${description}
+        {{if tags.length}}
+          {{each tags}}
+            <span class="tag">#${$value}</span>
+          {{/each}}
+        {{/if}}
+      </div>
       <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
       {{if completed}}<div class="date-completed inline timeago" title="${dateCompleted}">${dateCompleted}</div>{{/if}}
       <div class="delete inline-block invisible"><span class="ui-icon ui-icon-trash"></span></div>
