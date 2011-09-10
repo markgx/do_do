@@ -169,6 +169,7 @@ window.AppView = Backbone.View.extend
 
     @$('#todos-list').sortable
       handle: '.move-handle'
+      revert: 200
       update: (e, ui) =>
         newTodos = $.makeArray(@$('#todos-list li')).reverse()
 

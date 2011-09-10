@@ -183,6 +183,7 @@
       todos.fetch();
       this.$('#todos-list').sortable({
         handle: '.move-handle',
+        revert: 200,
         update: __bind(function(e, ui) {
           var newTodos;
           newTodos = $.makeArray(this.$('#todos-list li')).reverse();
