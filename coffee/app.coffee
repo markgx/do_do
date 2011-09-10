@@ -3,9 +3,35 @@ Todo = Backbone.Model.extend
   defaults: ->
     completed: false
     starred: false
+    tags: []
     dateCreated: new Date
     dateCompleted: null
     sortOrder: todos.nextSortOrder()
+
+  descriptionPlusTags: ->
+    description = @get('description')
+
+    if @get('tags').length > 0
+      description += ' ' + _(@get('tags')).map((t) ->
+        "##{t}"
+      ).join(' ')
+
+    description
+
+  parseTagsFromDescription: ->
+    matches = @get('description').match(/[^#]+(#.*)+$/)
+
+    if matches
+      @set
+        'description': @get('description').replace(matches[1], '').trim()
+
+      tagString = matches[1]
+      tagMatches = tagString.match(/#([\w-])+/g)
+
+      this.set
+        tags: _(tagMatches).map((t) ->
+          t.replace('#', '')
+        )
 
 Todos = Backbone.Collection.extend
   model: Todo
@@ -42,6 +68,7 @@ TodoView = Backbone.View.extend
     $(@el).html($('#todo-list-item').tmpl
       starred: @model.get('starred')
       description: @model.get('description')
+      tags: @model.get('tags')
       completed: @model.get('completed')
       dateCompleted: (if @model.get('dateCompleted') then @model.get('dateCompleted') else '')
     )
@@ -72,7 +99,7 @@ TodoView = Backbone.View.extend
 
   editDescription: ->
     @$('.description').addClass('hidden')
-    @$('.edit-field').val(@model.get('description'))
+    @$('.edit-field').val(@model.descriptionPlusTags())
     @$('.edit').removeClass('hidden')
     @$('.edit-field').focus()
 
@@ -128,6 +155,7 @@ TodoView = Backbone.View.extend
   _setDescription: ->
     description = $.trim(@$('.edit-field').val())
     @model.set(description: description)
+    @model.parseTagsFromDescription()
     @model.save()
     @render()
 
@@ -165,6 +193,7 @@ window.AppView = Backbone.View.extend
       return
 
     todo = new Todo(description: $newTaskField.val())
+    todo.parseTagsFromDescription()
     todos.create(todo)
     $newTaskField.val('')
 

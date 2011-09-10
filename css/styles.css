@@ -81,6 +81,15 @@ body {
   padding-right: 10px;
 }
 
+#todos-list .tag {
+  font-size: 80%;
+  background-color: #fffcde;
+  padding: 3px 5px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
 #todos-list .date-completed {
   font-size: 80%;
   color: #888;
