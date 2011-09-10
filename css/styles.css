@@ -82,7 +82,8 @@ body {
 }
 
 #todos-list .tag {
-  font-size: 80%;
+  font-size: 75%;
+  color: #333;
   background-color: #fffcde;
   padding: 3px 5px;
   border-radius: 5px;
