@@ -36,6 +36,10 @@
             return t.replace('#', '');
           })
         });
+      } else {
+        return this.set({
+          tags: []
+        });
       }
     }
   });

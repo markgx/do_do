@@ -28,10 +28,13 @@ Todo = Backbone.Model.extend
       tagString = matches[1]
       tagMatches = tagString.match(/#([\w-])+/g)
 
-      this.set
+      @set
         tags: _(tagMatches).map((t) ->
           t.replace('#', '')
         )
+    else
+      @set
+        tags: []
 
 Todos = Backbone.Collection.extend
   model: Todo
