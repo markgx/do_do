@@ -1,0 +1,51 @@
+<%= content_for :head_content do %>
+  <script>
+    $(document).ready(function() {
+      window.app = new AppView({ el: $('#dodo-container') });
+      $('.timeago').timeago();
+    })
+  </script>
+<% end %>
+
+<a href="http://github.com/markgx/do_do"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+<div id="dodo-container">
+  <h1>do do</h1>
+
+  <div><input id="new-task-field" type="text" placeholder="Enter new To-Do" /></div>
+
+  <ul id="todos-list"></ul>
+
+  <div id="empty-message" class="ui-widget hidden">
+    <div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> 
+      <p>
+        <span class="ui-icon ui-icon-info" style="float: left; margin-right: .7em;"></span>
+        Hey, you don't look so busy. Enter some new To-Dos above.
+      </p>
+    </div>
+  </div>
+
+  <div id="dialog-confirm-delete" title="Delete To-Do?" class="hidden">
+    <p>
+      <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+      Are you sure you want to delete this?
+    </p>
+  </div>
+</div>
+
+<script id="todo-list-item" type="text/x-jQuery-tmpl">
+  <div class="move-handle inline-block invisible"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></div>
+  <div class="star inline-block {{if starred}}starred{{else}}unstarred{{/if}}"><span class="ui-icon ui-icon-star"></span></div>
+  <div class="completed-div inline"><input type="checkbox" class="completed" {{if completed}}checked="checked"{{/if}} /></div>
+  <div class="description display inline-block">
+    ${description}
+    {{if tags.length}}
+      {{each tags}}
+        <span class="tag">#${$value}</span>
+      {{/each}}
+    {{/if}}
+  </div>
+  <div class="edit inline hidden"><input type="text" class="edit-field" /></div>
+  {{if completed}}<div class="date-completed inline timeago" title="${dateCompleted}">${dateCompleted}</div>{{/if}}
+  <div class="delete inline-block invisible"><span class="ui-icon ui-icon-trash"></span></div>
+</script>

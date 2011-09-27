@@ -1,3 +1,7 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
 # Models
 Todo = Backbone.Model.extend
   defaults: ->
@@ -28,13 +32,10 @@ Todo = Backbone.Model.extend
       tagString = matches[1]
       tagMatches = tagString.match(/#([\w-])+/g)
 
-      @set
+      this.set
         tags: _(tagMatches).map((t) ->
           t.replace('#', '')
         )
-    else
-      @set
-        tags: []
 
 Todos = Backbone.Collection.extend
   model: Todo
