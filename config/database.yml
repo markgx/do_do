@@ -21,7 +21,7 @@ test:
 production:
   adapter: mysql2
   encoding: utf8
-  database: <%= ENV['do_do_db_name'] %>
-  username: <%= ENV['do_do_db_username'] %>
-  password: <%= ENV['do_do_db_password'] %>
-  socket: /tmp/mysql.sock
+  database: <%= ENV['DO_DO_DB_NAME'] %>
+  username: <%= ENV['DO_DO_DB_USERNAME'] %>
+  password: <%= ENV['DO_DO_DB_PASSWORD'] %>
+  host: localhost
